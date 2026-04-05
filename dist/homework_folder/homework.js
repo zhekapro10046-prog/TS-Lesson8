@@ -1,105 +1,52 @@
 "use strict";
-// Devices 
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-class Light {
-    static turnOff() {
-        throw new Error("Method not implemented.");
-    }
-    static turnOn() {
-        throw new Error("Method not implemented.");
-    }
-    isOn = false;
-    turnOn() {
-        this.isOn = true;
-        console.log('Лампочка включена');
-    }
-    turnOff() {
-        this.isOn = false;
-        console.log('Лампочка выключена');
-    }
-}
-class MusicPlayer {
-    static play() {
-        throw new Error("Method not implemented.");
-    }
-    isPlaying = false;
-    play() {
-        this.isPlaying = true;
-        console.log('Колонка включена');
-    }
-    stop() {
-        this.isPlaying = false;
-        console.log('Колонка выключена');
-    }
-}
-class LightOnCommand {
-    light;
-    constructor(light) {
-        this.light = light;
-    }
-    execute() {
-        this.light.turnOn();
-    }
-}
-class LightOffCommand {
-    light;
-    constructor(light) {
-        this.light = light;
-    }
-    execute() {
-        this.light.turnOff();
-    }
-}
-class MusicPlayCommand {
-    musicPlayer;
-    constructor(musicPlay) {
-        this.musicPlayer = musicPlay;
-    }
-    execute() {
-        this.musicPlayer.play;
-    }
-}
-class MusicStopCommand {
-    musicPlayer;
-    constructor(musicPlay) {
-        this.musicPlayer = musicPlay;
-    }
-    execute() {
-        this.musicPlayer.stop;
-    }
-}
-// remote control 
-class RemoteControl {
-    static setCommand(arg0, arg1) {
-        throw new Error("Method not implemented.");
-    }
-    static pressButton(arg0) {
-        throw new Error("Method not implemented.");
-    }
-    buttons = new Map();
-    constructor() {
-        this.buttons = new Map();
-    }
-    setCommand(buttonId, command) {
-        this.buttons.set(buttonId, command);
-    }
-    pressButton(buttonId) {
-        const command = this.buttons.get(buttonId);
-        if (command) {
-            command.execute();
-        }
-        else {
-            console.log(`Кнопка с данным ID "${buttonId} не назначена или не найдена"`);
-        }
-    }
-}
-// Assembling
-const light = new Light();
-const musicPlayer = new MusicPlayer();
-const remoteControl = new RemoteControl();
-remoteControl.setCommand('1', Light.turnOn());
-remoteControl.setCommand('2', Light.turnOff());
-remoteControl.setCommand('3', MusicPlayer.play());
+const LightCommands_1 = __importStar(require("./commands/LightCommands"));
+const MusicPlayerCommands_1 = __importDefault(require("./commands/MusicPlayerCommands"));
+const Light_1 = __importDefault(require("./devices/Light"));
+const MusicPlayer_1 = __importDefault(require("./devices/MusicPlayer"));
+const RemoteControl_1 = __importDefault(require("./devices/RemoteControl"));
+const light = new Light_1.default();
+const musicPlayer = new MusicPlayer_1.default();
+const remoteControl = new RemoteControl_1.default();
+remoteControl.setCommand('1', new LightCommands_1.default(light));
+remoteControl.setCommand('2', new LightCommands_1.LightOffCommand(light));
+remoteControl.setCommand('3', new MusicPlayerCommands_1.default(musicPlayer));
 remoteControl.pressButton('1');
 remoteControl.pressButton('2');
 remoteControl.pressButton('3');
